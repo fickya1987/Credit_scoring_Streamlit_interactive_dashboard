@@ -89,7 +89,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
 # Penambahan logo
-logo_path = 'logo.jpg'
+logo_path = 'logo_gaman.png'
 st.sidebar.image(logo_path, use_column_width=True)
 
 # Definisi kelompok kolom
