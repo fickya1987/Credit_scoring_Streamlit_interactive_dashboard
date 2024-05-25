@@ -14,7 +14,7 @@ from sklearn.preprocessing import MinMaxScaler
 from matplotlib.patches import Arc
 import shap
 
-# Fonctions relatives à la jauge de risque du client
+# Fungsi terkait dengan pengukur risiko pelanggan
 def degree_range(n):
     start = np.linspace(0,180,n+1, endpoint=True)[0:-1]
     end = np.linspace(0,180,n+1, endpoint=True)[1::]
@@ -27,7 +27,7 @@ def rot_text(ang):
     return rotation
 
 
-def gauge(arrow=0.5, labels=['Faible', 'Moyen', 'Elevé', 'Très élevé'],
+def gauge(arrow=0.5, labels=['Rendah', 'Sedang', 'Tinggi', 'Sangat tinggi'],
           title='', min_val=0, max_val=100, threshold=-1.0,
           colors='RdYlGn_r', n_colors=-1, ax=None, figsize=(3, 2)):
     N = len(labels)
@@ -58,7 +58,7 @@ def gauge(arrow=0.5, labels=['Faible', 'Moyen', 'Elevé', 'Très élevé'],
     ax.add_patch(Rectangle((-0.4, -0.1), 0.8, 0.1, facecolor='w', lw=2))
     ax.text(0, -0.10, title, horizontalalignment='center', verticalalignment='center', fontsize=20, fontweight='bold')
 
-    # Seuils de la jauge
+    # Ambang batas pengukur
     if threshold > min_val and threshold < max_val:
         pos = 180 * (max_val - threshold) / (max_val - min_val)
         a = 0.25;
@@ -67,7 +67,7 @@ def gauge(arrow=0.5, labels=['Faible', 'Moyen', 'Elevé', 'Très élevé'],
         y = np.sin(np.radians(pos))
         ax.arrow(a * x, a * y, b * x, b * y, width=0.01, head_width=0.0, head_length=0, ls='--', fc='r', ec='r')
 
-    # Flèche de la jauge
+    # Panah pengukur
     pos = 180 - (180 * (max_val - arrow) / (max_val - min_val))
     pos_normalized = (arrow - min_val) / (max_val - min_val)
     angle_range = 180
@@ -84,67 +84,67 @@ def gauge(arrow=0.5, labels=['Faible', 'Moyen', 'Elevé', 'Très élevé'],
     return ax
 
 
-# Paramètres Streamlit (v1.25)
+# Parameter Streamlit (v1.25)
 st.set_option('deprecation.showPyplotGlobalUse', False)
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
-# Ajout logo
+# Penambahan logo
 logo_path = 'logo.jpg'
 st.sidebar.image(logo_path, use_column_width=True)
 
-# Définition groupe de colonnes
+# Definisi kelompok kolom
 categorical_columns = ['Type contrat',
                        'Genre',
                        'Diplôme etude supérieure',
                        'Ville travail différente ville_résidence']
 
-# Charger le modèle à partir du fichier pickle
+# Memuat model dari file pickle
 model_path = './saved_model/'
 with open('LightGBM_smote_tuned.pckl', 'rb') as f:
     model = pickle.load(f)
 
-# Charger les dataframes du dashboard
+# Memuat dataframe dari dashboard
 df_feature_importance = pd.read_csv('df_feature_importance_25.csv')
 df_feature_importance.drop('Unnamed: 0', axis=1, inplace=True)
 df_dashboard_final = pd.read_csv('df_dashboard_final.csv')
 df_dashboard_final.drop('Unnamed: 0', axis=1, inplace=True)
 
-# Titre du dashboard
-st.title('Risque de crédit client - Dashboard')
+# Judul dashboard
+st.title('Risiko kredit pelanggan/nasabah – Dashboard')
 
-# Encadré sur la partie gauche
-st.sidebar.title('Sélection du client')
+# Kotak di bagian kiri
+st.sidebar.title('Pemilihan pelanggan')
 selected_client = st.sidebar.selectbox('Identifiant client :', df_dashboard_final['ID client'])
 predict_button = st.sidebar.button('Prédire')
 
-# Obtention de l'index correspondant à l'ID client sélectionné
+# Mendapatkan indeks yang sesuai dengan ID pelanggan yang dipilih
 index = df_dashboard_final[df_dashboard_final['ID client'] == selected_client].index[0]
 
-# Affichage des informations du client sélectionné
+# Menampilkan informasi dari pelanggan yang dipilih
 client_info = df_dashboard_final[df_dashboard_final['ID client'] == selected_client]
-st.subheader('Informations sur le client :')
+st.subheader('Informasi pelanggan :')
 client_info.index = client_info['ID client']
 st.write(client_info[['Prédiction crédit', 'Score client (sur 100)', 'Type contrat', 'Genre', 'Âge']])
 
-# Obtention de la catégorie de prédiction crédit du client sélectionné
+# Mendapatkan kategori prediksi kredit dari pelanggan yang dipilih
 selected_client_cat = df_dashboard_final.loc[index, 'Prédiction crédit']
 
-# DataFrame contenant la même catégorie de prédiction crédit que le client sélectionné
+# DataFrame yang berisi kategori prediksi kredit yang sama dengan pelanggan yang dipilih
 df_customer = df_dashboard_final[df_dashboard_final['Prédiction crédit'] == selected_client_cat].copy()
 
-# Affichage de la jauge score client
-st.subheader('Niveau de risque client :')
-score = client_info['Score client (sur 100)'].values[0]  # Récupérer le score du client
+# Mendapatkan kategori prediksi kredit dari pelanggan yang dipilih
+st.subheader('Tingkat risiko pelanggan :')
+score = client_info['Score client (sur 100)'].values[0]  # Mengambil skor pelanggan
 fig, ax = plt.subplots(figsize=(5, 3))
-gauge(arrow=score, ax=ax)  # Appeler la fonction gauge() en passant le score du client
+gauge(arrow=score, ax=ax)  # Memanggil fungsi gauge() dengan mengirimkan skor pelanggan
 st.pyplot(fig)
 
-# Partie droite de l'écran
-st.sidebar.title('Graphiques')
+# Bagian kanan layar
+st.sidebar.title('Grafik')
 univariate_options = [col for col in df_dashboard_final.columns if col not in ['ID client', 'Prédiction crédit']]
 bivariate_options = [col for col in df_dashboard_final.columns if col not in ['ID client', 'Prédiction crédit']]
 
-# Graphique univarié
+# Grafik univariat
 univariate_feature = st.sidebar.selectbox('Variable univariée :', univariate_options)
 df_customer.replace([np.inf, -np.inf], 0, inplace=True)
 st.subheader('Analyse univariée (population restreinte) :')
@@ -155,7 +155,7 @@ plt.axvline(client_info[univariate_feature].values[0], color='salmon', linestyle
 plt.legend()
 st.pyplot(plt.gcf())
 
-# Graphique bivarié
+# Grafik bivariat
 bivariate_feature1 = st.sidebar.selectbox('Variable 1 (bivariée) :', bivariate_options)
 bivariate_feature2 = st.sidebar.selectbox('Variable 2 (bivariée) :', bivariate_options)
 st.subheader('Analyse bivariée (population complète) :')
@@ -170,7 +170,7 @@ plt.ylabel(bivariate_feature2)
 plt.legend()
 st.pyplot(plt.gcf())
 
-# Graphique feature importance globale
+# Grafik kepentingan fitur global
 df_sorted = df_feature_importance.sort_values('Features_importance_shapley', ascending=False)
 plt.figure(figsize=(8, 6))
 sns.barplot(x='Features_importance_shapley', y='Features', data=df_sorted, color='skyblue')
