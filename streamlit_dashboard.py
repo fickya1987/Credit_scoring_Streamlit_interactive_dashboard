@@ -113,7 +113,7 @@ df_dashboard_final.drop('Unnamed: 0', axis=1, inplace=True)
 st.title('Risiko kredit pelanggan/nasabah – Dashboard')
 
 # Kotak di bagian kiri
-st.sidebar.title('Pemilihan pelanggan')
+st.sidebar.title('Pemilihan pelanggan/nasabah')
 selected_client = st.sidebar.selectbox('Identitas Pelanggan/Nasabah :', df_dashboard_final['ID client'])
 predict_button = st.sidebar.button('Prédiksi')
 
@@ -164,7 +164,7 @@ sns.scatterplot(data=df_dashboard_final, x=bivariate_feature1, y=bivariate_featu
                 c=df_dashboard_final['Score client'], cmap='viridis',
                 alpha=0.5, label='Populasi')
 sns.scatterplot(data=client_info, x=bivariate_feature1, y=bivariate_feature2,
-                color='salmon', marker='o', s=100, label='Data Pelanggan/Nassabah yang terpilih')
+                color='salmon', marker='o', s=100, label='Data Pelanggan/Nasabah yang terpilih')
 plt.xlabel(bivariate_feature1)
 plt.ylabel(bivariate_feature2)
 plt.legend()
