@@ -161,7 +161,7 @@ bivariate_feature2 = st.sidebar.selectbox('Variabel 2 (bivariat) :', bivariate_o
 st.subheader('Analisis bivariat (populasi lengkap) :')
 plt.figure()
 sns.scatterplot(data=df_dashboard_final, x=bivariate_feature1, y=bivariate_feature2,
-                c=df_dashboard_final['Skor Pelanggan'], cmap='viridis',
+                c=df_dashboard_final['Score client'], cmap='viridis',
                 alpha=0.5, label='Populasi')
 sns.scatterplot(data=client_info, x=bivariate_feature1, y=bivariate_feature2,
                 color='salmon', marker='o', s=100, label='Data Pelanggan/Nassabah yang terpilih')
