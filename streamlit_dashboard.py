@@ -114,7 +114,7 @@ st.title('Risiko kredit pelanggan/nasabah – Dashboard')
 
 # Kotak di bagian kiri
 st.sidebar.title('Pemilihan pelanggan/nasabah')
-selected_client = st.sidebar.selectbox('Identitas Pelanggan/Nasabah :', df_dashboard_final['ID client'])
+selected_client = st.sidebar.selectbox('Identitas Pelanggan/Nasabah :', df_dashboard_final['Nasabah ID'])
 predict_button = st.sidebar.button('Prediksi')
 
 # Mendapatkan indeks yang sesuai dengan ID pelanggan yang dipilih
