@@ -93,10 +93,10 @@ logo_path = 'logo_gaman.png'
 st.sidebar.image(logo_path, use_column_width=True)
 
 # Definisi kelompok kolom
-categorical_columns = ['Type contrat',
-                       'Genre',
-                       'Diplôme etude supérieure',
-                       'Ville travail différente ville_résidence']
+categorical_columns = ['Jenis Kontrak',
+                       'Jenis Kelamin',
+                       'Gelar pendidikan tinggi',
+                       'Kota kerja berbeda dengan kota tempat tinggal']
 
 # Memuat model dari file pickle
 model_path = './saved_model/'
@@ -115,43 +115,43 @@ st.title('Risiko kredit pelanggan/nasabah – Dashboard')
 # Kotak di bagian kiri
 st.sidebar.title('Pemilihan pelanggan/nasabah')
 selected_client = st.sidebar.selectbox('Identitas Pelanggan/Nasabah :', df_dashboard_final['ID client'])
-predict_button = st.sidebar.button('Prédiksi')
+predict_button = st.sidebar.button('Prediksi')
 
 # Mendapatkan indeks yang sesuai dengan ID pelanggan yang dipilih
-index = df_dashboard_final[df_dashboard_final['ID client'] == selected_client].index[0]
+index = df_dashboard_final[df_dashboard_final['Nasabah ID'] == selected_client].index[0]
 
 # Menampilkan informasi dari pelanggan yang dipilih
-client_info = df_dashboard_final[df_dashboard_final['ID client'] == selected_client]
+client_info = df_dashboard_final[df_dashboard_final['Nasabah ID'] == selected_client]
 st.subheader('Informasi pelanggan :')
-client_info.index = client_info['ID client']
-st.write(client_info[['Prédiction crédit', 'Score client (sur 100)', 'Type contrat', 'Genre', 'Âge']])
+client_info.index = client_info['Nasabah ID']
+st.write(client_info[['Prediksi Kemampuan Bayar', 'Nilai Resiko Nasabah (dari skala 100)', 'Jenis Kontrak', 'Jenis Kelamin', 'Usia']])
 
 # Mendapatkan kategori prediksi kredit dari pelanggan yang dipilih
-selected_client_cat = df_dashboard_final.loc[index, 'Prédiction crédit']
+selected_client_cat = df_dashboard_final.loc[index, 'Prediksi Kemampuan Bayar']
 
 # DataFrame yang berisi kategori prediksi kredit yang sama dengan pelanggan yang dipilih
-df_customer = df_dashboard_final[df_dashboard_final['Prédiction crédit'] == selected_client_cat].copy()
+df_customer = df_dashboard_final[df_dashboard_final['Prediksi Kemampuan Bayar'] == selected_client_cat].copy()
 
 # Mendapatkan kategori prediksi kredit dari pelanggan yang dipilih
 st.subheader('Tingkat risiko pelanggan :')
-score = client_info['Score client (sur 100)'].values[0]  # Mengambil skor pelanggan
+score = client_info['Nilai Resiko Nasabah (dari skala 100)'].values[0]  # Mengambil skor pelanggan
 fig, ax = plt.subplots(figsize=(5, 3))
 gauge(arrow=score, ax=ax)  # Memanggil fungsi gauge() dengan mengirimkan skor pelanggan
 st.pyplot(fig)
 
 # Bagian kanan layar
 st.sidebar.title('Grafik')
-univariate_options = [col for col in df_dashboard_final.columns if col not in ['ID client', 'Prédiction crédit']]
-bivariate_options = [col for col in df_dashboard_final.columns if col not in ['ID client', 'Prédiction crédit']]
+univariate_options = [col for col in df_dashboard_final.columns if col not in ['Nasabah ID', 'Prediksi Kemampuan Bayar']]
+bivariate_options = [col for col in df_dashboard_final.columns if col not in ['Nasabah ID', 'Prediksi Kemampuan Bayar']]
 
 # Grafik univariat
 univariate_feature = st.sidebar.selectbox('Variabel univariat :', univariate_options)
 df_customer.replace([np.inf, -np.inf], 0, inplace=True)
 st.subheader('Analisis univariat (populasi terbatas) :')
 plt.figure()
-plt.hist(df_customer[univariate_feature], color='skyblue', label='Population')
+plt.hist(df_customer[univariate_feature], color='skyblue', label='Populasi')
 plt.xlabel(univariate_feature)
-plt.axvline(client_info[univariate_feature].values[0], color='salmon', linestyle='--', label='Client sélectionné')
+plt.axvline(client_info[univariate_feature].values[0], color='salmon', linestyle='--', label='Pelanggan/Nasabah yang terpilih')
 plt.legend()
 st.pyplot(plt.gcf())
 
@@ -161,10 +161,10 @@ bivariate_feature2 = st.sidebar.selectbox('Variabel 2 (bivariat) :', bivariate_o
 st.subheader('Analisis bivariat (populasi lengkap) :')
 plt.figure()
 sns.scatterplot(data=df_dashboard_final, x=bivariate_feature1, y=bivariate_feature2,
-                c=df_dashboard_final['Score client'], cmap='viridis',
+                c=df_dashboard_final['Nilai Resiko Nasabah'], cmap='viridis',
                 alpha=0.5, label='Populasi')
 sns.scatterplot(data=client_info, x=bivariate_feature1, y=bivariate_feature2,
-                color='salmon', marker='o', s=100, label='Data Pelanggan/Nasabah yang terpilih')
+                color='salmon', marker='o', s=100, label='Pelanggan/Nasabah yang terpilih')
 plt.xlabel(bivariate_feature1)
 plt.ylabel(bivariate_feature2)
 plt.legend()
