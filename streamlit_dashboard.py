@@ -114,8 +114,8 @@ st.title('Risiko kredit pelanggan/nasabah – Dashboard')
 
 # Kotak di bagian kiri
 st.sidebar.title('Pemilihan pelanggan')
-selected_client = st.sidebar.selectbox('Identifiant client :', df_dashboard_final['ID client'])
-predict_button = st.sidebar.button('Prédire')
+selected_client = st.sidebar.selectbox('Identitas Pelanggan/Nasabah :', df_dashboard_final['ID client'])
+predict_button = st.sidebar.button('Prédiksi')
 
 # Mendapatkan indeks yang sesuai dengan ID pelanggan yang dipilih
 index = df_dashboard_final[df_dashboard_final['ID client'] == selected_client].index[0]
@@ -145,9 +145,9 @@ univariate_options = [col for col in df_dashboard_final.columns if col not in ['
 bivariate_options = [col for col in df_dashboard_final.columns if col not in ['ID client', 'Prédiction crédit']]
 
 # Grafik univariat
-univariate_feature = st.sidebar.selectbox('Variable univariée :', univariate_options)
+univariate_feature = st.sidebar.selectbox('Variabel univariat :', univariate_options)
 df_customer.replace([np.inf, -np.inf], 0, inplace=True)
-st.subheader('Analyse univariée (population restreinte) :')
+st.subheader('Analisis univariat (populasi terbatas) :')
 plt.figure()
 plt.hist(df_customer[univariate_feature], color='skyblue', label='Population')
 plt.xlabel(univariate_feature)
@@ -156,15 +156,15 @@ plt.legend()
 st.pyplot(plt.gcf())
 
 # Grafik bivariat
-bivariate_feature1 = st.sidebar.selectbox('Variable 1 (bivariée) :', bivariate_options)
-bivariate_feature2 = st.sidebar.selectbox('Variable 2 (bivariée) :', bivariate_options)
-st.subheader('Analyse bivariée (population complète) :')
+bivariate_feature1 = st.sidebar.selectbox('Variabel 1 (bivariat) :', bivariate_options)
+bivariate_feature2 = st.sidebar.selectbox('Variabel 2 (bivariat) :', bivariate_options)
+st.subheader('Analisis bivariat (populasi lengkap) :')
 plt.figure()
 sns.scatterplot(data=df_dashboard_final, x=bivariate_feature1, y=bivariate_feature2,
-                c=df_dashboard_final['Score client'], cmap='viridis',
-                alpha=0.5, label='Population')
+                c=df_dashboard_final['Skor Pelanggan'], cmap='viridis',
+                alpha=0.5, label='Populasi')
 sns.scatterplot(data=client_info, x=bivariate_feature1, y=bivariate_feature2,
-                color='salmon', marker='o', s=100, label='Client sélectionné')
+                color='salmon', marker='o', s=100, label='Data Pelanggan/Nassabah yang terpilih')
 plt.xlabel(bivariate_feature1)
 plt.ylabel(bivariate_feature2)
 plt.legend()
@@ -174,7 +174,7 @@ st.pyplot(plt.gcf())
 df_sorted = df_feature_importance.sort_values('Features_importance_shapley', ascending=False)
 plt.figure(figsize=(8, 6))
 sns.barplot(x='Features_importance_shapley', y='Features', data=df_sorted, color='skyblue')
-plt.xlabel('Importance SHAP')
-plt.ylabel('Variable')
-st.subheader('Importance des variables :')
+plt.xlabel('Tingkat Kepentingan SHAP')
+plt.ylabel('Variabel')
+st.subheader('Tingkat Kepentingan Variabel :')
 st.pyplot(plt.gcf())
