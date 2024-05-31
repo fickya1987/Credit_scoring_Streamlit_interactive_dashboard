@@ -151,7 +151,7 @@ st.subheader('Analisis univariat (populasi terbatas) :')
 plt.figure()
 plt.hist(df_customer[univariate_feature], color='skyblue', label='Populasi')
 plt.xlabel(univariate_feature)
-plt.axvline(client_info[univariate_feature].values[0], color='salmon', linestyle='--', label='Pelanggan/Nasabah yang terpilih')
+plt.axvline(client_info[univariate_feature].values[0], color='salmon', linestyle='--', label='Pelanggan/Nasabah yang terinvestigasi')
 plt.legend()
 st.pyplot(plt.gcf())
 
@@ -164,7 +164,7 @@ sns.scatterplot(data=df_dashboard_final, x=bivariate_feature1, y=bivariate_featu
                 c=df_dashboard_final['Nilai Resiko Nasabah'], cmap='viridis',
                 alpha=0.5, label='Populasi')
 sns.scatterplot(data=client_info, x=bivariate_feature1, y=bivariate_feature2,
-                color='salmon', marker='o', s=100, label='Pelanggan/Nasabah yang terpilih')
+                color='salmon', marker='o', s=100, label='Pelanggan/Nasabah yang terinvestigasi')
 plt.xlabel(bivariate_feature1)
 plt.ylabel(bivariate_feature2)
 plt.legend()
