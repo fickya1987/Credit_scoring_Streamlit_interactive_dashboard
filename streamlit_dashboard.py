@@ -124,7 +124,7 @@ index = df_dashboard_final[df_dashboard_final['Nasabah ID'] == selected_client].
 client_info = df_dashboard_final[df_dashboard_final['Nasabah ID'] == selected_client]
 st.subheader('Informasi pelanggan :')
 client_info.index = client_info['Nasabah ID']
-st.write(client_info[['Prediksi Kemampuan Bayar', 'Nilai Resiko Nasabah (dari skala 100)', 'Jenis Kontrak', 'Jenis Kelamin', 'Usia', 'Bagian angsuran dari total pendapatan', 'Jumlah Pendapatan Bulanan', 'Uang_Masuk_Payment_Gateway_3bulan', 'Uang_Keluar_Payment_Gateway_3bulan', 'Mayoritas_Produk_Dibeli_online', 'Tingkat_Variasi_Produk_Belanja', 'Nilai_Belanja_Online_3bulan', 'Biaya_Pulsa_3bulan', 'Biaya_Internet_dan_aplikasi_berbayar_3bulan', 'Frekuensi_Instagram_harian', 'Frekuensi_Tiktok_harian, 'Frekuensi_XCom_harian', 'Google_Timeline_3bulan', 'Followers_Subscribers_Viewers', 'Likes_Comments']])
+st.write(client_info[['Prediksi Kemampuan Bayar', 'Nilai Resiko Nasabah (dari skala 100)', 'Jenis Kontrak', 'Jenis Kelamin', 'Bagian angsuran dari total pendapatan', 'Jumlah Pendapatan Bulanan', 'Uang_Keluar_Payment_Gateway_3bulan', 'Nilai_Belanja_Online_3bulan', 'Biaya_Pulsa_3bulan', 'Biaya_Internet_dan_aplikasi_berbayar_3bulan']])
 
 # Mendapatkan kategori prediksi kredit dari pelanggan yang dipilih
 selected_client_cat = df_dashboard_final.loc[index, 'Prediksi Kemampuan Bayar']
