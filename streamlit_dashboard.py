@@ -110,7 +110,7 @@ df_dashboard_final = pd.read_csv('df_dashboard_final_rev.csv')
 df_dashboard_final.drop('Unnamed: 0', axis=1, inplace=True)
 
 # Judul dashboard
-st.title('Risiko kredit pelanggan/nasabah – Dashboard')
+st.title('Risiko kredit Usaha UMKM – Dashboard')
 
 # Kotak di bagian kiri
 st.sidebar.title('Pemilihan pelanggan/nasabah')
