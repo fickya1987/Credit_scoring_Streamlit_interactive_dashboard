@@ -133,7 +133,7 @@ selected_client_cat = df_dashboard_final.loc[index, 'Prediksi Kemampuan Bayar']
 df_customer = df_dashboard_final[df_dashboard_final['Prediksi Kemampuan Bayar'] == selected_client_cat].copy()
 
 # Mendapatkan kategori prediksi kredit dari pelanggan yang dipilih
-st.subheader('Tingkat risiko pelanggan :')
+st.subheader('Tingkat Resiko Usaha UMKM:')
 score = client_info['Nilai Resiko Nasabah (dari skala 100)'].values[0]  # Mengambil skor pelanggan
 fig, ax = plt.subplots(figsize=(5, 3))
 gauge(arrow=score, ax=ax)  # Memanggil fungsi gauge() dengan mengirimkan skor pelanggan
