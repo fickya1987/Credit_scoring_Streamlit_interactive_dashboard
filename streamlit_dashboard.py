@@ -122,7 +122,7 @@ index = df_dashboard_final[df_dashboard_final['Nasabah ID'] == selected_client].
 
 # Menampilkan informasi dari pelanggan yang dipilih
 client_info = df_dashboard_final[df_dashboard_final['Nasabah ID'] == selected_client]
-st.subheader('Informasi pelanggan :')
+st.subheader('Informasi Wirausaha UMKM :')
 client_info.index = client_info['Nasabah ID']
 st.write(client_info[['Prediksi Kemampuan Bayar', 'Nilai Resiko Nasabah (dari skala 100)', 'Jenis Kontrak', 'Jenis Kelamin', 'Bagian angsuran dari total pendapatan', 'Jumlah Pendapatan Bulanan', 'Uang_Keluar_Payment_Gateway_3bulan', 'Nilai_Belanja_Online_3bulan', 'Biaya_Pulsa_3bulan', 'Biaya_Internet_dan_aplikasi_berbayar_3bulan']])
 
